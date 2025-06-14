@@ -507,7 +507,7 @@ async def login(credentials: LoginSchema, response: Response):
         value=token,
         httponly=True,
         secure=True,         # Set True in production
-        samesite="Strict",   # Or "Lax" depending on your needs
+        samesite="Lax",   # Or "Lax" depending on your needs
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
     )
@@ -518,7 +518,7 @@ async def login(credentials: LoginSchema, response: Response):
         value=csrf_token,
         httponly=False,
         secure=True,
-        samesite="Strict",
+        samesite="Lax",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
     )
@@ -626,7 +626,7 @@ async def superadmin_login(credentials: SuperAdminLoginSchema, response: Respons
         value=token,
         httponly=True,
         secure=True,
-        samesite="Strict",
+        samesite="Lax",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
     )
@@ -635,7 +635,7 @@ async def superadmin_login(credentials: SuperAdminLoginSchema, response: Respons
         value=csrf_token,
         httponly=False,
         secure=True,
-        samesite="Strict",
+        samesite="Lax",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         path="/"
     )
@@ -1265,7 +1265,7 @@ async def college_login(credentials: CollegeLogin):
         value=token,
         httponly=True,
         secure=True,
-        samesite="Strict",
+        samesite="Lax",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60
     )
 
@@ -1274,7 +1274,7 @@ async def college_login(credentials: CollegeLogin):
         key="csrf_token",
         value=csrf_token,
         secure=True,
-        samesite="Strict",
+        samesite="Lax",
         max_age=ACCESS_TOKEN_EXPIRE_MINUTES * 60
     )
     print(response)
