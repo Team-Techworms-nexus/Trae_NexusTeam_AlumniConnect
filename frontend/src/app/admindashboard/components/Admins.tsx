@@ -41,7 +41,7 @@ export default function Admins() {
     try {
       setLoading(true);
       const csrfToken = sessionStorage.getItem('csrf_token');
-      const response = await fetch('http://localhost:8000/admins/',{
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/admins/',{
         method: 'GET',
           credentials: 'include',
           headers: {
@@ -77,7 +77,7 @@ export default function Admins() {
     try {
       setIsSubmitting(true);
       const csrfToken = sessionStorage.getItem('csrf_token');
-      const response = await fetch('http://localhost:8000/add-admin/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/add-admin/', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -112,7 +112,7 @@ export default function Admins() {
     
     try {
       const csrfToken = sessionStorage.getItem('csrf_token');
-      const response = await fetch(`http://localhost:8000/admins/${adminId}`, {
+      const response = await fetch(`https://trae-nexusteam-alumniconnect.onrender.com/admins/${adminId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

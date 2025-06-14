@@ -67,7 +67,7 @@ export default function NetworkingPage() {
     
     if (userId) {
       // No need to pass token in URL as it will be sent in cookies automatically
-      const ws = new WebSocket(`ws://trae-nexusteam-alumniconnect.onrender.com/ws/${userId}`);
+      const ws = new WebSocket(`wss://trae-nexusteam-alumniconnect.onrender.com/ws/${userId}`);
       
       ws.onopen = () => {
         console.log('WebSocket connection established');

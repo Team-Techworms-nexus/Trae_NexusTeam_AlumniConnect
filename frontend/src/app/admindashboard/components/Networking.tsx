@@ -21,6 +21,7 @@ interface Group {
   createdAt: string;
 }
 
+
 interface User {
   _id: string;
   name: string;
@@ -64,10 +65,11 @@ export default function Networking() {
     
     if (userId) {
       // No need to pass token in URL as it will be sent in cookies automatically
-      const ws = new WebSocket(`ws://localhost:8000/ws/${userId}`);
+      const ws = new WebSocket(`wss://trae-nexusteam-alumniconnect.onrender.com/ws/${userId}`);
       
       ws.onopen = () => {
         console.log('WebSocket connection established');
+        
         setSocket(ws);
       };
       
@@ -109,7 +111,7 @@ export default function Networking() {
   const fetchGroups = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/groups/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/groups/', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': sessionStorage.getItem('csrf_token') || ''
@@ -133,7 +135,7 @@ export default function Networking() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/users/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/users/', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': sessionStorage.getItem('csrf_token') || ''
@@ -156,7 +158,7 @@ export default function Networking() {
 
   const getCurrentUserRole = async () => {
     try {
-      const response = await fetch('http://localhost:8000/users/me', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/users/me', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': sessionStorage.getItem('csrf_token') || ''
@@ -177,7 +179,7 @@ export default function Networking() {
   const fetchMessages = async (groupId?: string, userId?: string) => {
     try {
       setLoading(true);
-      let url = 'http://localhost:8000/messages/?';
+      let url = 'https://trae-nexusteam-alumniconnect.onrender.com/messages/?';
       
       if (chatType === 'group' && groupId) {
         url += `group_id=${groupId}`;
@@ -268,7 +270,7 @@ export default function Networking() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:8000/groups/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/groups/', {
         method: 'POST',
         credentials: 'include',
         headers: {

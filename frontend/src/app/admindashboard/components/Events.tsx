@@ -36,7 +36,7 @@ export default function Events() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/events', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/events', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': sessionStorage.getItem('csrf_token') || ''
@@ -54,7 +54,7 @@ export default function Events() {
 
   const handleCreateEvent = async () => {
     try {
-      const response = await fetch('http://localhost:8000/events', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/events', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -83,7 +83,7 @@ export default function Events() {
 
   const handleDeleteEvent = async (eventId: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/events/${eventId}`, {
+      const response = await fetch(`https://trae-nexusteam-alumniconnect.onrender.com/events/${eventId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

@@ -38,7 +38,7 @@ export default function Alumni() {
     setLoading(true);
     const csrfToken = sessionStorage.getItem('csrf_token');
     try {
-      const response = await fetch('http://localhost:8000/alumni/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/alumni/', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -76,7 +76,7 @@ export default function Alumni() {
     setAddSuccess('');
     
     try {
-      const response = await fetch('http://localhost:8000/add-alumni/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/add-alumni/', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -131,7 +131,7 @@ export default function Alumni() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/bulk-register-alumni/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/bulk-register-alumni/', {
         method: 'POST',
         credentials: 'include',
         headers: {

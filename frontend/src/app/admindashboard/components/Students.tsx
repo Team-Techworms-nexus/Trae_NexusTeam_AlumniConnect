@@ -37,7 +37,7 @@ export default function Students() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:8000/bulk-register-students/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/bulk-register-students/', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -96,7 +96,7 @@ export default function Students() {
     setAddSuccess('');
     
     try {
-      const response = await fetch('http://localhost:8000/add-student/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/add-student/', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -148,7 +148,7 @@ export default function Students() {
   const fetchStudents = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/students/', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/students/', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': getCsrfToken()

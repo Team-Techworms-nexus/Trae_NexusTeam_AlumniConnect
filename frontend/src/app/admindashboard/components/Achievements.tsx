@@ -34,7 +34,7 @@ export default function Achievements() {
   const fetchAchievements = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/achievements', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/achievements', {
         credentials: 'include',
         headers: {
           'X-CSRF-Token': sessionStorage.getItem('csrf_token') || ''
@@ -52,7 +52,7 @@ export default function Achievements() {
 
   const handleCreateAchievement = async () => {
     try {
-      const response = await fetch('http://localhost:8000/achievements', {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/achievements', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -80,7 +80,7 @@ export default function Achievements() {
 
   const handleDeleteAchievement = async (achievementId: string) => {
     try {
-      const response = await fetch(`http://localhost:8000/achievements/${achievementId}`, {
+      const response = await fetch(`https://trae-nexusteam-alumniconnect.onrender.com/achievements/${achievementId}`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {
