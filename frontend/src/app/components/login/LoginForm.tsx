@@ -121,7 +121,7 @@ export default function LoginForm() {
     <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-100 via-blue-50 to-white flex flex-col">
       <Header />
       <div className="container mx-auto px-4 flex items-center justify-center flex-1 py-18">
-        <div className="flex w-full max-w-6xl min-h-[500px] bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden mx-auto">
+        <div className="flex w-full max-w-8xl min-h-[750px] bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg overflow-hidden mx-auto">
           {/* Student/Alumni Section */}
           <div className="w-1/2 p-33 border-r border-gray-100">
             <div className="text-center mb-8">
@@ -169,7 +169,7 @@ export default function LoginForm() {
             <div className="fixed inset-0 backdrop-blur-md bg-white/30 flex items-center justify-center z-50">
               <div 
                 ref={modalRef}
-                className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl mx-auto my-auto overflow-y-auto max-h-[90vh]"
+                className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl mx-auto overflow-y-auto max-h-[90vh]"
               >
                 <div className="text-center mb-8">
                   <Image src="/logo.png" alt="Net4Grad Logo" width={64} height={64} className="mx-auto mb-4" />
