@@ -134,11 +134,9 @@ export default function Students() {
   };
 
   const getCsrfToken = () => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; csrf_token=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || '';
-    return '';
+    return sessionStorage.getItem('csrf_token') || '';
   };
+  
 
   const filteredStudents = students.filter(student => 
     student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
