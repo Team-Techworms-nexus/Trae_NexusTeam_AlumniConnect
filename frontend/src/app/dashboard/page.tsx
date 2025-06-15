@@ -475,7 +475,7 @@ export default function StudentDashboard() {
 
             {/* Main Content Area */}
             <div className={`${isSidebarCollapsed ? 'col-span-11' : 'col-span-9'} space-y-6 transition-all duration-300`}>
-            // ... existing code ...
+           
   {activeTab === 'donations' && (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
