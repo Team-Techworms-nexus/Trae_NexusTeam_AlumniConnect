@@ -359,7 +359,7 @@ app.openapi = custom_openapi
 # CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://trae-nexus-team-alumni-connect.vercel.app"],
+    allow_origins=["https://trae-nexus-team-alumni-connect.vercel.app","https://trae-nexus-team-alumni-connect.vercel.app/superadmin"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
