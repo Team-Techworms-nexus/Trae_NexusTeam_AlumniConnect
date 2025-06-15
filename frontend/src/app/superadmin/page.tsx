@@ -1,6 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+interface SuperAdminCredentials {
+  username: string;
+  password: string;
+}
 
 interface College {
   _id: string;
@@ -34,6 +40,12 @@ interface CollegeMeta {
 }
 
 export default function SuperAdminDashboard() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [credentials, setCredentials] = useState<SuperAdminCredentials>({ username: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  
   const [colleges, setColleges] = useState<College[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -113,8 +125,51 @@ export default function SuperAdminDashboard() {
   
 
   useEffect(() => {
-    fetchColleges();
+    // Check if user is already authenticated
+    const token = sessionStorage.getItem('superadmin_token');
+    if (token) {
+      setIsAuthenticated(true);
+      fetchColleges();
+    }
   }, []);
+  
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoggingIn(true);
+    setLoginError('');
+    
+    try {
+      const response = await fetch('https://trae-nexusteam-alumniconnect.onrender.com/superadmin/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials)
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Login failed');
+      }
+      
+      // Store token and mark as authenticated
+      sessionStorage.setItem('superadmin_token', data.csrf_token);
+      setIsAuthenticated(true);
+      fetchColleges();
+    } catch (err) {
+      setLoginError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+  
+  const handleLogout = () => {
+    sessionStorage.removeItem('superadmin_token');
+    setIsAuthenticated(false);
+    setCredentials({ username: '', password: '' });
+  };
 
   const filteredColleges = colleges.filter(college => {
     const matchesSearch = college.collegeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -123,9 +178,73 @@ export default function SuperAdminDashboard() {
     return matchesSearch && matchesStatus;
   });
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h1 className="text-2xl font-bold mb-6 text-center">Super Admin Login</h1>
+          
+          {loginError && (
+            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+              {loginError}
+            </div>
+          )}
+          
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                required
+                value={credentials.username}
+                onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                value={credentials.password}
+                onChange={(e) => setCredentials({...credentials, password: e.target.value})}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter password"
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            >
+              {isLoggingIn ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Super Admin Dashboard</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Super Admin Dashboard</h1>
+        <button 
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Logout
+        </button>
+      </div>
       
       <div className="mb-6 flex justify-between items-center">
         <div className="flex gap-4 items-center">
