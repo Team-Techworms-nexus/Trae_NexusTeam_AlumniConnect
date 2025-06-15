@@ -155,7 +155,7 @@ export default function SuperAdminDashboard() {
       }
       
       // Store token and mark as authenticated
-      sessionStorage.setItem('superadmin_token', data.csrf_token);
+      sessionStorage.setItem('csrf_token', data.csrf_token);
       setIsAuthenticated(true);
       fetchColleges();
     } catch (err) {
