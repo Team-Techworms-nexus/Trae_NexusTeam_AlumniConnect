@@ -306,8 +306,11 @@ async def get_current_user(token: str = Depends(get_token_from_cookie)):
     del user["password"]
     return user
 
-async def get_current_superadmin(token: str = Depends(get_token_from_cookie)):
+async def get_current_superadmin():
     try:
+        token = request.cookies.get("superadmin_token")
+        if not token:
+            raise HTTPException(status_code=401, detail="Not authenticated")
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         if payload.get("role") != "superadmin":
             raise HTTPException(status_code=403, detail="Not a superadmin")
