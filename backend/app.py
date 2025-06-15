@@ -1155,7 +1155,7 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 @app.get("/colleges/")
 async def get_colleges(status: str = None, search: str = None, skip: int = 0, limit: int = 100, current_user: dict = Depends(get_current_user), _: str = Depends(verify_csrf)):
     # Only allow superadmin to access this endpoint
-    if current_user["role"] != "Admin":
+    if current_user["role"] != "superadmin":
         raise HTTPException(status_code=403, detail="Only superadmin can view colleges")
 
     SaaS_Management = client["SaaS_Management"]
@@ -1173,7 +1173,7 @@ async def get_colleges(status: str = None, search: str = None, skip: int = 0, li
     
 @app.post("/colleges/{college_id}/approve")
 async def approve_college(college_id: str, current_user: dict = Depends(get_current_user), _: str = Depends(verify_csrf)):
-    if current_user["role"] != "Admin":
+    if current_user["role"] != "superadmin":
         raise HTTPException(status_code=403, detail="Only superadmin can approve colleges")
 
     SaaS_Management = client["SaaS_Management"]
@@ -1212,7 +1212,7 @@ async def approve_college(college_id: str, current_user: dict = Depends(get_curr
 
 @app.post("/colleges/{college_id}/reject")
 async def reject_college(college_id: str, current_user: dict = Depends(get_current_user), _: str = Depends(verify_csrf)):
-    if current_user["role"] != "Admin":
+    if current_user["role"] != "superadmin":
         raise HTTPException(status_code=403, detail="Only superadmin can reject colleges")
 
     SaaS_Management = client["SaaS_Management"]
