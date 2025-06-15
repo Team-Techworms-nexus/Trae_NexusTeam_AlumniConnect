@@ -266,6 +266,7 @@ async def verify_csrf(
 
 
 
+
 async def get_token_from_cookie(request: Request) -> str:
     token = request.cookies.get("access_token")
     if not token:
@@ -304,6 +305,22 @@ async def get_current_user(token: str = Depends(get_token_from_cookie)):
     user["collegeDb"] = college_db  # Attach the database to the user object for later use
     del user["password"]
     return user
+
+async def get_current_superadmin(token: str = Depends(get_token_from_cookie)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        if payload.get("role") != "superadmin":
+            raise HTTPException(status_code=403, detail="Not a superadmin")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    db = client["SaaS_Management"]
+    superadmin = await db["SuperAdmin"].find_one({"_id": ObjectId(payload["_id"])})
+    if not superadmin:
+        raise HTTPException(status_code=404, detail="Superadmin not found")
+    del superadmin["password"]
+    return superadmin
+
 
 # FastAPI App
 app = FastAPI()
@@ -613,16 +630,20 @@ async def superadmin_login(credentials: SuperAdminLoginSchema, response: Respons
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     # Prepare user info for token
+    expire = get_current_time() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     user_info = {
         "_id": str(superadmin["_id"]),
         "name": superadmin["name"],
-        "role": "superadmin"
+        "role": "superadmin",
+        "exp": int(expire.timestamp())
     }
-    token = create_access_token(user_info, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    
+    token = jwt.encode(user_info, SECRET_KEY, algorithm=ALGORITHM)
+    
     csrf_token = secrets.token_urlsafe(32)
 
     response.set_cookie(
-        key="access_token",
+        key="superadmin_token",
         value=token,
         httponly=True,
         secure=True,
