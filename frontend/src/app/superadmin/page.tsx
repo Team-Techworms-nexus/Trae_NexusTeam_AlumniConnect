@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface SuperAdminCredentials {
-  username: string;
+  name: string;
   password: string;
 }
 
@@ -42,7 +42,7 @@ interface CollegeMeta {
 export default function SuperAdminDashboard() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [credentials, setCredentials] = useState<SuperAdminCredentials>({ username: '', password: '' });
+  const [credentials, setCredentials] = useState<SuperAdminCredentials>({ name: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   
@@ -168,7 +168,7 @@ export default function SuperAdminDashboard() {
   const handleLogout = () => {
     sessionStorage.removeItem('superadmin_token');
     setIsAuthenticated(false);
-    setCredentials({ username: '', password: '' });
+    setCredentials({ name: '', password: '' });
   };
 
   const filteredColleges = colleges.filter(college => {
@@ -192,17 +192,17 @@ export default function SuperAdminDashboard() {
           
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Username
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                name
               </label>
               <input
-                id="username"
+                id="name"
                 type="text"
                 required
-                value={credentials.username}
-                onChange={(e) => setCredentials({...credentials, username: e.target.value})}
+                value={credentials.name}
+                onChange={(e) => setCredentials({...credentials, name: e.target.value})}
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter username"
+                placeholder="Enter name"
               />
             </div>
             

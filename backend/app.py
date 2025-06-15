@@ -600,13 +600,13 @@ from pydantic import BaseModel
 import secrets
 
 class SuperAdminLoginSchema(BaseModel):
-    username: str
+    name: str
     password: str
 
 @app.post("/superadmin/login")
 async def superadmin_login(credentials: SuperAdminLoginSchema, response: Response):
     db = client["SaaS_Management"]
-    superadmin = await db["SuperAdmin"].find_one({"username": credentials.username})
+    superadmin = await db["SuperAdmin"].find_one({"name": credentials.name})
     if not superadmin:
         raise HTTPException(status_code=400, detail="Superadmin not found")
     if not verify_password(credentials.password, superadmin["password"]):
@@ -615,7 +615,7 @@ async def superadmin_login(credentials: SuperAdminLoginSchema, response: Respons
     # Prepare user info for token
     user_info = {
         "_id": str(superadmin["_id"]),
-        "username": superadmin["username"],
+        "name": superadmin["name"],
         "role": "superadmin"
     }
     token = create_access_token(user_info, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
