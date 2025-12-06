@@ -176,6 +176,7 @@ export default function LoginForm() {
                   <h3 className="text-2xl font-bold text-gray-900">
                     {userType === 'student' ? 'Student/Alumni Login' : 'Admin Login'}
                   </h3>
+                  <h2 className="text-2xl font-bold text-gray-900"> collegeId : abc , password : abcd1234 </h2>
                 </div>
 
                 <form onSubmit={(e) => handleSubmit(e, userType)} className="space-y-6">
