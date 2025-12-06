@@ -18,6 +18,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 import pytz
 import json
 import secrets
+import certifi
 from fastapi import Body
 from fastapi import UploadFile, File
 from fastapi.responses import StreamingResponse
@@ -30,7 +31,13 @@ load_dotenv()
 
 # MongoDB setup (global client, databases will be selected dynamically)
 MONGODB_URL = os.getenv("MONGODB_URL")
-client = AsyncIOMotorClient(MONGODB_URL)
+DISABLE_CERT_CHECK = os.getenv("DISABLE_CERT_CHECK", "false")
+client = AsyncIOMotorClient(
+    MONGODB_URL,
+    tls=True,
+    tlsCAFile=certifi.where(),
+    tlsAllowInvalidCertificates=(DISABLE_CERT_CHECK == "true"),
+    retryWrites=False)
 
 # Security
 SECRET_KEY = os.getenv("SECRET_KEY")
